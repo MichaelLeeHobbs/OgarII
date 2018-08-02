@@ -77,6 +77,7 @@ class ServerHandle {
 
         this.logger.inform("ticker begin");
         this.logger.inform(`\u001B[1m\u001B[32mOgarII\u001B[0m\u001B[32m ${version}\u001B[0m`);
+        setTimeout(()=>this.reset(),this.settings.gameResetTime * 60 * 1000);
         return true;
     }
 
@@ -99,6 +100,11 @@ class ServerHandle {
 
         this.logger.inform("ticker stop");
         return true;
+    }
+
+    reset() {
+        this.stop();
+        this.start();
     }
 
     /** @returns {World} */
