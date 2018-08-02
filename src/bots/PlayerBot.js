@@ -1,5 +1,7 @@
 const Bot = require("./Bot");
-const { throwIfBadNumber } = require("../primitives/Misc");
+const {throwIfBadNumber} = require("../primitives/Misc");
+const fs = require('fs')
+const botNames = fs.readFileSync('../datafiles/botNames.txt', 'utf8').split(/\r?\n/);
 
 class PlayerBot extends Bot {
     /**
@@ -13,14 +15,16 @@ class PlayerBot extends Bot {
         this.target = null;
     }
 
-    static get separateInTeams() { return true; }
+    static get separateInTeams() {
+        return true;
+    }
 
     get shouldClose() {
-        return
-            this.player === null
-         || !this.player.exists
-         || this.player.world === null;
+        return this.player === null
+            || !this.player.exists
+            || this.player.world === null;
     }
+
     update() {
         if (this.splitCooldownTicks > 0) this.splitCooldownTicks--;
         else this.target = null;
@@ -28,7 +32,9 @@ class PlayerBot extends Bot {
         this.player.updateVisibleCells();
         const player = this.player;
         if (player.state === -1) {
-            this.spawningName = "Player bot";
+            // this.spawningName = "Player bot";
+            // generate random bot name
+            this.spawningName = botNames[Math.floor(Math.random() * Math.floor(botNames.length))];
             this.onSpawnRequest();
             this.spawningName = null;
         }
@@ -39,7 +45,7 @@ class PlayerBot extends Bot {
             if (cell === null || player.ownedCells[i].size > cell.size)
                 cell = player.ownedCells[i];
         if (cell === null) return; // ???
-        
+
         if (this.target != null) {
             if (!this.target.exists || !this.canEat(cell.size, this.target.size))
                 this.target = null;
@@ -81,7 +87,9 @@ class PlayerBot extends Bot {
                         splitkillObstacleNearby = true;
                     }
                     break;
-                case 1: influence = 1; break;
+                case 1:
+                    influence = 1;
+                    break;
                 case 2:
                     if (atMaxCells) influence = truncatedInfluence;
                     else if (this.canEat(cell.size, check.size)) {
@@ -90,7 +98,9 @@ class PlayerBot extends Bot {
                             splitkillObstacleNearby = true;
                     }
                     break;
-                case 3: if (this.canEat(cell.size, check.size)) influence = truncatedInfluence * cellCount; break;
+                case 3:
+                    if (this.canEat(cell.size, check.size)) influence = truncatedInfluence * cellCount;
+                    break;
                 case 4:
                     if (this.canEat(check.size, cell.size)) influence = -1;
                     else if (this.canEat(cell.size, check.size)) {
@@ -102,15 +112,16 @@ class PlayerBot extends Bot {
 
             if (influence === 0) continue;
             if (d === 0) d = 1;
-            dx /= d; dy /= d;
+            dx /= d;
+            dy /= d;
             mouseX += dx * influence / d;
             mouseY += dy * influence / d;
         }
 
         if (
-                willingToSplit && !splitkillObstacleNearby && this.splitCooldownTicks <= 0 &&
-                bestPrey !== null && bestPrey.size * 2 > cell.size
-            ) {
+            willingToSplit && !splitkillObstacleNearby && this.splitCooldownTicks <= 0 &&
+            bestPrey !== null && bestPrey.size * 2 > cell.size
+        ) {
             this.target = bestPrey;
             this.mouseX = bestPrey.x;
             this.mouseY = bestPrey.y;
@@ -130,6 +141,7 @@ class PlayerBot extends Bot {
     canEat(aSize, bSize) {
         return aSize > bSize * 1.140175425099138;
     }
+
     /**
      * @param {Number} a
      * @param {Number} b
