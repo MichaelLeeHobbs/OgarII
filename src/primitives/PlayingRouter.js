@@ -44,7 +44,7 @@ class PlayingRouter {
     /** @virtual */
     onSpawnRequest() {
         if (this.player === null) return;
-        this.listener.handle.gamemode.onPlayerSpawnRequest(this.player, this.spawningName);
+        this.listener.handle.gamemode.onPlayerSpawnRequest(this.player, this.spawningName, this.spawningSkin);
     }
     /** @virtual */
     onSpectateRequest() {

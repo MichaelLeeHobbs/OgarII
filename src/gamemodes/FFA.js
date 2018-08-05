@@ -14,11 +14,11 @@ class FFA extends Gamemode {
     static get gamemodeName() { return "FFA"; }
 
     /** @param {Player} player @param {String} name */
-    onPlayerSpawnRequest(player, name) {
+    onPlayerSpawnRequest(player, name, skin=null) {
         if (player.state === 0) return;
         const size = this.handle.settings.playerSpawnSize;
         const spawnInfo = player.world.getPlayerSpawn(size);
-        player.world.spawnPlayer(player, spawnInfo.color || Misc.randomColor(), spawnInfo.pos, size, name, null);
+        player.world.spawnPlayer(player, spawnInfo.color || Misc.randomColor(), spawnInfo.pos, size, name, skin);
     }
 
     /** @param {World} world */

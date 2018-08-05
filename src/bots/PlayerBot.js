@@ -2,6 +2,7 @@ const Bot = require("./Bot");
 const {throwIfBadNumber} = require("../primitives/Misc");
 const fs = require('fs')
 const botNames = fs.readFileSync('../datafiles/botNames.txt', 'utf8').split(/\r?\n/);
+const skins = fs.readFileSync('../datafiles/skins.txt', 'utf8').split(/\r?\n/);
 
 class PlayerBot extends Bot {
     /**
@@ -35,6 +36,7 @@ class PlayerBot extends Bot {
             // this.spawningName = "Player bot";
             // generate random bot name
             this.spawningName = botNames[Math.floor(Math.random() * Math.floor(botNames.length))];
+            this.spawningSkin = skins[Math.floor(Math.random() * Math.floor(skins.length))];
             this.onSpawnRequest();
             this.spawningName = null;
         }
