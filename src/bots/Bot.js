@@ -17,7 +17,9 @@ class Bot extends PlayingRouter {
 
     close() {
         super.close();
-        this.listener.handle.removePlayer(this.player.id);
+        if (this.player) {
+            this.listener.handle.removePlayer(this.player.id);
+        }
         this.disconnected = true;
         this.disconnectionTick = this.listener.handle.tick;
     }

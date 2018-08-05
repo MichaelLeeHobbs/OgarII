@@ -139,7 +139,7 @@ class ServerHandle {
     createPlayer(router) {
         let id = 0;
         while (this.players.hasOwnProperty(++id)) ;
-        const newPlayer = new Player(this, id, router);
+        const newPlayer = new Player(this, id, router, this.settings);
         this.players[id] = newPlayer;
         router.player = newPlayer;
         this.gamemode.onNewPlayer(newPlayer);

@@ -10,11 +10,14 @@ class Player {
      * @param {Number} id
      * @param {PlayingRouter} router
      */
-    constructor(handle, id, router) {
+    constructor(handle, id, router, settings) {
         this.handle = handle;
         this.id = id;
         this.router = router;
         this.exists = true;
+
+        this._roamSpeed = settings.playerRoamSpeed;
+        this._moveMult = settings.playerMoveMult;
 
         /**
          * -1 - Idle
@@ -102,7 +105,7 @@ class Player {
                 let dx = this.router.mouseX - this.viewArea.x;
                 let dy = this.router.mouseY - this.viewArea.y;
                 const d = Math.sqrt(dx * dx + dy * dy);
-                const D = Math.min(d, this.settings.playerRoamSpeed);
+                const D = Math.min(d, this.roamSpeed);
                 if (D < 1) break; dx /= d; dy /= d;
                 const border = this.world.border;
                 this.viewArea.x = Math.max(border.x - border.w, Math.min(this.viewArea.x + dx * D, border.x + border.w));
@@ -132,6 +135,23 @@ class Player {
         const disposeDelay = this.settings.playerDisposeDelay;
         if (disposeDelay > 0 && this.handle.tick - this.router.disconnectionTick >= disposeDelay)
             this.handle.removePlayer(this.id);
+    }
+
+
+    get roamSpeed() {
+        return this._roamSpeed;
+    }
+
+    set roamSpeed(value) {
+        this._roamSpeed = value;
+    }
+
+    get moveMult() {
+        return this._moveMult;
+    }
+
+    set moveMult(value) {
+        this._moveMult = value;
     }
 }
 

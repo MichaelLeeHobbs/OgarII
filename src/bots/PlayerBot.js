@@ -14,6 +14,9 @@ class PlayerBot extends Bot {
         this.splitCooldownTicks = 0;
         /** @type {Cell} */
         this.target = null;
+
+        this.player.roamSpeed = world.settings.bot.roamSpeed;
+        this.player.moveMult = world.settings.bot.moveMult;
     }
 
     static get separateInTeams() {
