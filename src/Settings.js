@@ -81,7 +81,11 @@ const value = Object.seal({
     playerMergeVersion: "old",
     playerMergeTime: 30,
     playerMergeTimeIncrease: 0.02,
-    playerDecayMult: 0.001
+    playerDecayMult: 0.001,
+    bot: {
+        roamSpeed: 40,
+        moveMult: 1.1
+    }
 });
 
 module.exports = value;
