@@ -56,10 +56,15 @@ module.exports = {
     Command: Command,
     CommandList: CommandList,
     /**
-     * @param {{name: String, args: String, desc: String, exec: CommandExecutor}} info 
+     * Generates a command.
+     * @param {String} name
+     * @param {String} desc
+     * @param {String} args
+     * @param {CommandExecutor} exec
+     * @returns {Command}
      */
-    genCommand(info) {
-        return new Command(info.name, info.desc, info.args, info.exec);
+    genCommand({name, desc, args, exec}) {
+        return new Command(name, desc, args, exec);
     }
 };
 
