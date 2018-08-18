@@ -103,8 +103,7 @@ class ServerHandle {
     }
 
     reset() {
-        this.stop();
-        this.start();
+        return this.stop() && this.start();
     }
 
     /** @returns {World} */
