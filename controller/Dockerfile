@@ -8,3 +8,5 @@ ENV NPM_CONFIG_LOGLEVEL info
 EXPOSE 8080
 
 USER node
+
+CMD npm start
