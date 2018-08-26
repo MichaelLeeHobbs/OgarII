@@ -1,4 +1,4 @@
-const Settings = require("./Settings");
+const Settings = require("../datafiles/Settings");
 
 const { CommandList } = require("./commands/CommandList");
 const DefaultCommands = require("./commands/DefaultCommands");
