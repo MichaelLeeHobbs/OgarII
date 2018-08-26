@@ -1,5 +1,5 @@
 const fs = require("fs");
-const DefaultSettings = require("../src/Settings");
+const DefaultSettings = require("../datafiles/Settings");
 const ServerHandle = require("../src/ServerHandle");
 const { genCommand } = require("../src/commands/CommandList");
 const readline = require("readline");
