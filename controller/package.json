@@ -1,0 +1,22 @@
+{
+  "name": "ogar3controller",
+  "version": "1.0.0",
+  "description": "ogar3 cluster controller",
+  "main": "src/server.js",
+  "author": "Michael Lee Hobbs",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "client-sessions": "^0.8.0",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^1.0.0",
+    "passport-local": "^1.0.0",
+    "pg": "^7.4.3",
+    "pg-hstore": "^2.3.2",
+    "restify": "^7.2.1",
+    "restify-errors": "^6.1.1",
+    "restify-jwt-community": "^1.0.7",
+    "sequelize": "^4.38.0",
+    "winston": "^3.0.0"
+  }
+}
