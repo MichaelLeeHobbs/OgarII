@@ -16,21 +16,23 @@ services:
 
   controller:
     image: ogar-controller
-    restart: never
+    #restart: always
     links:
      - db
 
   web:
     image: ogar-web
-    restart: never
+    #restart: always
 
   haproxy:
     image: ogar-haproxy
-    restart: never
+    #restart: always
     ports:
       - "80:80"
       - "443:443"
     links:
-    - controller
-    - web
-    - adminer
+      - controller
+      - web
+      - adminer
+    extra_hosts:
+      - "logger:192.168.1.200"
