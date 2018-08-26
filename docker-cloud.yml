@@ -29,7 +29,7 @@ services:
       replicas: 2
       update_config:
         parallelism: 2
-      failure_action: rollback
+        failure_action: rollback
 
   haproxy:
     image: ogar-haproxy
