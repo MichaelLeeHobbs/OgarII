@@ -17,16 +17,19 @@ services:
   controller:
     image: ogar-controller
     #restart: always
+    restart: no
     links:
      - db
 
   web:
     image: ogar-web
     #restart: always
+    restart: no
 
   haproxy:
     image: ogar-haproxy
     #restart: always
+    restart: no
     ports:
       - "80:80"
       - "443:443"
