@@ -18,5 +18,8 @@
     "restify-jwt-community": "^1.0.7",
     "sequelize": "^4.38.0",
     "winston": "^3.0.0"
+  },
+  "scripts": {
+    "start": "node src/server.js"
   }
 }
