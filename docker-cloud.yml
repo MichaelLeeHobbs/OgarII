@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+
+  adminer:
+    image: adminer
+    restart: always
+    links:
+      - db
+
+  controller:
+    image: ogar-controller
+    restart: always
+    links:
+     - db
+
+  web:
+    image: ogar-web
+    restart: always
+
+  haproxy:
+    image: ogar-haproxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+    - controller
+    - web
+    - adminer
