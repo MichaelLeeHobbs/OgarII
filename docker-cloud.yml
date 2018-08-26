@@ -25,6 +25,11 @@ services:
     image: ogar-web
     #restart: always
     restart: "no"
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+      failure_action: rollback
 
   haproxy:
     image: ogar-haproxy
