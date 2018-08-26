@@ -1,4 +1,5 @@
 #!/bin/bash
+git pull
 cd controller
 docker build -t ogar-controller .
 cd ../haproxy
