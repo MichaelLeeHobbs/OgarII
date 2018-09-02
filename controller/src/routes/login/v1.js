@@ -24,17 +24,20 @@ module.exports = async (req, res, next) => {
                     resp['token'] = jwt.sign(resp, config.JWT_SECRET)
                     logger.info(`${MODULE_ID}: token generated`)
                 } else {
-                    resp = new errors.BadRequestError('Invalid username or password.')
+                    logger.info(`${MODULE_ID}: Invalid password for: ${email} ${password}`)
+                    resp = new errors.InvalidCredentialsError()
                 }
             } else {
-                resp = new errors.BadRequestError('Invalid username or password.')
+                logger.info(`${MODULE_ID}: User not found: ${email}`)
+                resp = new errors.InvalidCredentialsError()
             }
         } catch (error) {
-            // todo handle error?
+            logger.error(`${MODULE_ID}: Error ${error}`, error)
             resp = error
         }
     } else {
-        resp = new errors.BadRequestError('Invalid username or password.')
+        logger.info(`${MODULE_ID}: Invalid creds: ${email} ${password}`)
+        resp = new errors.InvalidCredentialsError()
     }
 
     res.send(resp)
