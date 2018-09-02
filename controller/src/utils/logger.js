@@ -6,7 +6,7 @@ let logger    = winston.createLogger({
     transports: [
         new (winston.transports.Console)({
             silent: false,
-            timestamp: false,
+            timestamp: true,
             colorize: true
         })
     ],
