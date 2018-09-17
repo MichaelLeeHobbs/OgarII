@@ -1,4 +1,6 @@
-module.exports = (email, password) => fetch('/api/login', {
+const api = process.env.POSTGRES_USER || ''
+
+module.exports = (email, password) => fetch(`${api}/api/login`, {
     method: 'POST',
     body: JSON.stringify({email, password}),
     mode: "cors",

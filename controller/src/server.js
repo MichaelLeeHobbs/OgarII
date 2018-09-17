@@ -23,6 +23,8 @@ server.use(jwt(jwtConfig).unless({
         config.basePath('/ping'),
         config.basePath('/register'),
         config.basePath('/login'),
+        config.basePath('/servers'),    // FIXME
+        config.basePath('/settings'),   // FIXME
     ]
 }))
 

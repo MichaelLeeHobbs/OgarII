@@ -1,5 +1,5 @@
 FROM node:8
-WORKDIR /usr/src/app
+WORKDIR /home/node/app
 COPY package*.json ./
 # Must run prep.sh first
 # https://github.com/moby/moby/issues/37129
@@ -8,8 +8,8 @@ RUN yarn install
 COPY . .
 
 ENV NPM_CONFIG_LOGLEVEL info
-EXPOSE 8080
+EXPOSE 443
 
-USER node
+#USER node
 
 CMD yarn start

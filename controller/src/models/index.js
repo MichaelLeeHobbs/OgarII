@@ -5,16 +5,16 @@ const { Client } = require('pg')
 
 const pgConfig = {
     host: 'db',
-    port: '5432',           // default process.env.PGPORT
-    user: 'postgres',       // default process.env.PGUSER || process.env.USER
-    password: 'example',    // default process.env.PGPASSWORD
-    database: 'postgres',   // default process.env.PGDATABASE || process.env.USER
+    port: '5432',                                           // default process.env.PGPORT
+    user: process.env.POSTGRES_USER || 'postgres',
+    password: process.env.POSTGRES_PASSWORD || 'example',
+    database: 'postgres',
 }
 
 const sequelizeConfig = {
-    database: 'ogar3',
-    username: 'postgres',
-    password: 'example',
+    database: process.env.POSTGRES_DB || 'ogar3',
+    username: process.env.POSTGRES_USER || 'postgres',
+    password: process.env.POSTGRES_PASSWORD || 'example',
     host: 'db',
     dialect: 'postgres',
     pool: {
@@ -49,11 +49,13 @@ async function init() {
     const sequelize = new Sequelize(sequelizeConfig)
     models.Users = sequelize.define('users', require('./user'))
     models.Settings = sequelize.define('settings', require('./setting'))
+    models.Servers = sequelize.define('servers', require('./server'))
 
     sequelize.sync().then(() => {
         // initialize tables
         require('./settings.init')(models)
         require('./users.init')(models)
+        require('./servers.init')(models)
     }).then(()=>client.end())   // close the connection
 }
 

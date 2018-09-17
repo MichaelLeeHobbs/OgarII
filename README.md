@@ -1,24 +1,10 @@
 # OgarII
 
-**If you're trying to connect through agar.io, you need to run `core.disableIntegrityChecks(true);` in the console**.
-
-**Ask all your questions over on the Agar.io Private Servers guild**:
-
-[![link](https://discordapp.com/api/guilds/407210435721560065/embed.png?style=banner2)](https://discord.gg/66X2ESb)
-
 This is a full rewrite based off of Ogar/MultiOgar/MultiOgar-Edited that ended up being better than I originally expected. The code is clean and logical. The agar protocol is fully supported - up from version 4 all the way to 17.
 
 ## Running
 
-1. You need a somewhat newer version of node as a lot of the code utilizes ES6 features that are shipped with them. If you get a random syntax error, try updating node to the LTS version first.
-
-2. `git clone` or download&extract the repo contents.
-
-3. Run `npm install` to install uWebSockets and json-beautify.
-
-4. `cd cli/`
-
-5. `node index.js`
+1. DEV: docker-compose build && docker-compose up
 
 ## Configuring
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -15,9 +15,10 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import {mainListItems, secondaryListItems} from './listItems';
 import SignIn from '../../components/SignIn'
 import authenticate from '../../modules/authenticate'
+import Settings from '../settings/Settings'
 
 
 const drawerWidth = 240;
@@ -100,23 +101,29 @@ class Home extends React.Component {
     state = {
         open: true,
         token: null,
-        roles: []
+        roles: [],
+        child: null
     };
 
+    login = ({token, roles}) => {
+        this.setState({token, child: <Settings token={token} />})
+    }
+
+    //
     handleDrawerOpen = () => {
-        this.setState({ open: true });
+        this.setState({open: true});
     };
 
     handleDrawerClose = () => {
-        this.setState({ open: false });
+        this.setState({open: false});
     };
 
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
 
         return (
             <React.Fragment>
-                <CssBaseline />
+                <CssBaseline/>
                 <div className={classes.root}>
                     <AppBar
                         position="absolute"
@@ -132,7 +139,7 @@ class Home extends React.Component {
                                     this.state.open && classes.menuButtonHidden,
                                 )}
                             >
-                                <MenuIcon />
+                                <MenuIcon/>
                             </IconButton>
                             <Typography variant="title" color="inherit" noWrap className={classes.title}>
                                 OGAR III Server Controller
@@ -150,25 +157,25 @@ class Home extends React.Component {
                     >
                         <div className={classes.toolbarIcon}>
                             <IconButton onClick={this.handleDrawerClose}>
-                                <ChevronLeftIcon />
+                                <ChevronLeftIcon/>
                             </IconButton>
                         </div>
-                        <Divider />
+                        <Divider/>
                         <List>{mainListItems}</List>
-                        <Divider />
+                        <Divider/>
                         <List>{secondaryListItems}</List>
                     </Drawer>
                     <main className={classes.content}>
-                        <div className={classes.appBarSpacer} />
+                        <div className={classes.appBarSpacer}/>
                         <Typography variant="display1" gutterBottom>
-                            {this.state.token ? 'todo' : <SignIn submit={(event)=>{
+                            {this.state.token ? this.state.child : <SignIn submit={(event) => {
                                 event.preventDefault()
                                 let email = event.target.email.value
                                 let password = event.target.password.value
                                 console.log(email)
                                 console.log(password)
-                                authenticate(email, password).then(({token, roles})=>{
-                                    this.setState({token, roles})
+                                authenticate(email, password).then(({token, roles}) => {
+                                    this.login({token, roles})
                                     console.log({token, roles})
                                 }).catch(console.error)
                             }}/>}
