@@ -1,0 +1,139 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: ogar-db
+    image: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5432:5432"
+    networks:
+      - ogar_db
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    depends_on:
+      - "db"
+    networks:
+      - ogar_db
+      - ogar_frontend
+
+  controller:
+    container_name: ogar-controller
+    build:
+      context: ./controller
+    image: michaelleehobbs/ogar-controller:latest
+    #restart: always
+    restart: "no"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: ogar3
+    depends_on:
+      - "db"
+    networks:
+      - ogar_db
+      - ogar_frontend
+
+  core:
+    container_name: ogar-core
+    build:
+      context: ./core
+    image: michaelleehobbs/ogar-core:latest
+    restart: always
+    depends_on:
+    - "controller"
+    networks:
+      - ogar_frontend
+
+  web:
+    container_name: ogar-web
+    build:
+      context: ./web
+    environment:
+      CHOKIDAR_USEPOLLING: 'true'
+    image: michaelleehobbs/ogar-web:latest
+    #restart: always
+    restart: "no"
+    networks:
+      - ogar_frontend
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        failure_action: rollback
+
+  client:
+    container_name: ogar-client
+    build:
+      context: ./client
+    environment:
+      CHOKIDAR_USEPOLLING: 'true'
+    image: michaelleehobbs/ogar-client:latest
+    #restart: always
+    restart: "no"
+    networks:
+    - ogar_frontend
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        failure_action: rollback
+
+  haproxy:
+    container_name: ogar-proxy
+    build:
+      context: ./haproxy
+    image: michaelleehobbs/ogar-haproxy:latest
+    #restart: always
+    restart: "no"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8443:8443"
+    links:
+      - controller
+      - web
+      - adminer
+      - core
+    depends_on:
+      - "controller"
+      - "web"
+      - "adminer"
+      - "core"
+    extra_hosts:
+      - "logger:192.168.1.200"
+    networks:
+      - ogar_frontend
+
+#  visualizer:
+#    container_name: visualizer
+#    image: dockersamples/visualizer:stable
+#    ports:
+#      - "8001:8080"
+#    stop_grace_period: 1m30s
+#    networks:
+#      - ogar_default
+#    volumes:
+#      - "/var/run/docker.sock:/var/run/docker.sock"
+#    deploy:
+#      update_config:
+#        failure_action: rollback
+#      placement:
+#        constraints:
+#          - 'node.role == manager'
+
+networks:
+  ogar_db:
+  ogar_frontend:
+  ogar_default:
+
+volumes:
+  db-data:
