@@ -109,6 +109,11 @@ services:
       - web
       - adminer
       - core
+    depends_on:
+      - "controller"
+      - "web"
+      - "adminer"
+      - "core"
     extra_hosts:
       - "logger:192.168.1.200"
     networks:
