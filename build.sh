@@ -13,3 +13,11 @@ echo "Building web"
 cd ../web
 docker build -t michaelleehobbs/ogar-web:latest .
 docker push michaelleehobbs/ogar-web
+echo "Building client"
+cd ../client
+docker build -t michaelleehobbs/ogar-client:latest .
+docker push michaelleehobbs/ogar-client
+echo "Building core"
+cd ../core
+docker build -t michaelleehobbs/ogar-core:latest .
+docker push michaelleehobbs/ogar-core
